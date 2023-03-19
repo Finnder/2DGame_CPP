@@ -1,5 +1,7 @@
 #include "player.h"
 #include <cmath>
+#include <vector>
+
 
 
 // Config
@@ -14,13 +16,15 @@ float copy_sign(float x, float y) {
 }
 
 Player::Player(float x, float y) {
-    m_shape.setRadius(50.f);
+    m_shape.setRadius(20.f);
     m_shape.setPosition(x, y);
-    m_shape.setFillColor(sf::Color::Red);
+    m_shape.setFillColor(sf::Color::White);
 }
 
-void Player::update(float deltaTime) {
+void Player::update(float deltaTime, const std::vector<sf::RectangleShape>& walls) {
+
     sf::Vector2f position = m_shape.getPosition();
+    sf::Vector2f previousPosition = position;
 
     // Update movement velocity based on acceleration and deceleration
     if (m_movement.x != 0.f) {
@@ -54,6 +58,18 @@ void Player::update(float deltaTime) {
     position.x = position.x + smoothingFactor * (targetPosition.x - position.x);
     position.y = position.y + smoothingFactor * (targetPosition.y - position.y);
     m_shape.setPosition(position);
+
+    // Collision Checking
+    for (const auto& wall : walls) {
+        sf::FloatRect wallBounds = wall.getGlobalBounds();
+        sf::FloatRect playerBounds = m_shape.getGlobalBounds();
+
+        if (playerBounds.intersects(wallBounds)) {
+            // Collision detected, revert the player's position to the previous position
+            m_shape.setPosition(previousPosition);
+            break; // No need to check further collisions as the player's position is already reverted
+        }
+    } 
 }
 
 void Player::handleInput(sf::Event event) {

@@ -1,12 +1,14 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <vector>
+
 
 class Player {
 public:
     Player(float x, float y);
 
-    void update(float deltaTime);
+    void update(float deltaTime, const std::vector<sf::RectangleShape>& walls);
     void handleInput(sf::Event event);
     void draw(sf::RenderWindow& window);
 
