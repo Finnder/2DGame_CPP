@@ -1,8 +1,9 @@
 #include <SFML/Graphics.hpp>
-#include "./config/config.cpp"
+#include "./config/config.h"
 #include "./lib/player/player.cpp"
 #include "./lib/ui/button/RoundedButton.cpp"
 #include "./lib/debug/debugMessage.cpp"
+#include "./lib/envirement/map.cpp"
 #include <string>
 #include <cmath>
 #include <vector>
@@ -43,16 +44,7 @@ int main()
 
 
     // Environment
-    std::vector<sf::RectangleShape> walls;
-    sf::RectangleShape wall1(sf::Vector2f(100, 100));
-    wall1.setFillColor(sf::Color::Blue);
-    wall1.setPosition(300, 250);
-    walls.push_back(wall1);
-
-    sf::RectangleShape wall2(sf::Vector2f(100, 100));
-    wall2.setFillColor(sf::Color::Blue);
-    wall2.setPosition(500, 350);
-    walls.push_back(wall2);
+    std::vector<sf::RectangleShape> walls = get_map();
 
     while (window.isOpen())
     {   
@@ -61,6 +53,7 @@ int main()
         float dt = deltaTime.asSeconds();
 
         sf::Event event;
+
         while(window.pollEvent(event)){
             if (event.type == sf::Event::Closed) { window.close(); }
 

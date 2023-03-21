@@ -1,4 +1,5 @@
 #include <string>
+#include "config.h"
 
 /*
  * Config for the game, including window settings and other stuff

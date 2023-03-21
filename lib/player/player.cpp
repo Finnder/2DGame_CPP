@@ -6,10 +6,12 @@
 
 // Config
 float playerSpeed = 1000.f;
-
 float smoothingFactor = 0.2f;
 float acceleration = 10000.f;
 float deceleration = 2000.f; // Lower means more slide, higher means less and quicker stop
+
+// temp
+bool can_shoot = false;
 
 float copy_sign(float x, float y) {
     return (y < 0.f) ? -std::abs(x) : std::abs(x);
@@ -19,6 +21,12 @@ Player::Player(float x, float y) {
     m_shape.setRadius(20.f);
     m_shape.setPosition(x, y);
     m_shape.setFillColor(sf::Color::White);
+}
+
+void Player::createProjectile() {
+    float x = m_shape.getPosition().x + m_shape.getRadius();
+    float y = m_shape.getPosition().y + m_shape.getRadius();
+    m_projectiles.emplace_back(x, y, m_movement.x, m_movement.y);
 }
 
 void Player::update(float deltaTime, const std::vector<sf::RectangleShape>& walls) {
@@ -70,29 +78,47 @@ void Player::update(float deltaTime, const std::vector<sf::RectangleShape>& wall
             break; // No need to check further collisions as the player's position is already reverted
         }
     } 
+
+
+     // Update projectiles
+    for (auto& projectile : m_projectiles) {
+        projectile.update(deltaTime, walls);
+    }
 }
 
+
 void Player::handleInput(sf::Event event) {
+
    if (event.type == sf::Event::KeyPressed) {
+
+       // Space - Shoots Projectile
+        if (event.key.code == sf::Keyboard::Space) {
+            createProjectile();
+        }
+
         if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::W) {
             m_movement.y = -1.f;
+            can_shoot = true;
         }
          
         if (event.key.code == sf::Keyboard::Down || event.key.code == sf::Keyboard::S) {
             m_movement.y = 1.f;
+            can_shoot = true;
         }
 
         if (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::A) {
             m_movement.x = -1.f;
+            can_shoot = true;
         }
          
         if (event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::D) {
             m_movement.x = 1.f;
+            can_shoot = true;
         }
     } else if (event.type == sf::Event::KeyReleased) {
         if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::Down || event.key.code == sf::Keyboard::W || event.key.code == sf::Keyboard::S) {
             m_movement.y = 0.f;
-        } else if (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::A || event.key.code == sf::Keyboard::D) {
+        } if (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::A || event.key.code == sf::Keyboard::D) {
             m_movement.x = 0.f;
         }
     } 
@@ -100,4 +126,8 @@ void Player::handleInput(sf::Event event) {
 
 void Player::draw(sf::RenderWindow& window) {
     window.draw(m_shape);
+
+    for (auto& projectile : m_projectiles) {
+        projectile.draw(window);
+    }
 }

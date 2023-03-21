@@ -1,8 +1,4 @@
-#pragma once
-
-#include <SFML/Graphics.hpp>
-#include <vector>
-
+#include "projectile.cpp"
 
 class Player {
 public:
@@ -13,7 +9,11 @@ public:
     void draw(sf::RenderWindow& window);
 
 private:
+    void createProjectile();
+
     sf::CircleShape m_shape;
-    sf::Vector2f m_velocity{ 0.f, 0.f }; 
-    sf::Vector2f m_movement{ 0.f, 0.f };
+    sf::Vector2f m_movement;
+    sf::Vector2f m_velocity;
+    std::vector<Projectile> m_projectiles;
 };
+
