@@ -14,7 +14,6 @@ int main()
     // Create the game window
     sf::RenderWindow window(sf::VideoMode(window_x, window_y), windowTitle);
 
-
     sf::Clock clock;
     sf::Time deltaTime; 
 
@@ -28,21 +27,13 @@ int main()
     }
 
     Player player(window.getSize().x / 2, window.getSize().y / 2); // Starts player at center
+
+    // BG
+    sf::RectangleShape background;
+    background.setFillColor(backgroundColor);
+    background.setSize(sf::Vector2f(window_x, window_y));
+    background.setOrigin(0, 0);
     
-    // UI
-    RoundedButton play_button(200, 50, "PLAY", font);
-    RoundedButton options_button(200, 50, "OPTIONS", font);
-    RoundedButton quit_button(200, 50, "QUIT", font);
-    
-    play_button.setFillColor(sf::Color::Green);
-    options_button.setFillColor(sf::Color::Cyan);
-    quit_button.setFillColor(sf::Color::Red);
-
-    play_button.setPosition(window.getSize().x / 2, 200);
-    options_button.setPosition(window.getSize().x / 2, 270);
-    quit_button.setPosition(window.getSize().x / 2, 340);
-
-
     // Environment
     std::vector<sf::RectangleShape> walls = get_map();
 
@@ -65,6 +56,7 @@ int main()
         // Clear the window
         window.clear();
 
+        window.draw(background);
         player.draw(window);
 
         // Draw Walls

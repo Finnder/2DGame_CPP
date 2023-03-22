@@ -5,9 +5,8 @@
 // We return all of the walls here
 std::vector<sf::RectangleShape> get_map(){
 
-    sf::Color borderColor = sf::Color::White;
+    sf::Color borderColor = borderWallColor;
     sf::Color borderOutlineColor = sf::Color::Yellow;
-
 
     std::vector<sf::RectangleShape> generated_walls;
 
@@ -21,11 +20,12 @@ std::vector<sf::RectangleShape> get_map(){
     top_wall.setPosition(0, 0);    
     generated_walls.push_back(top_wall);
 
+    // Bottom Wall
     sf::RectangleShape bottom_wall(sf::Vector2f(window_x, 20));
     bottom_wall.setFillColor(borderColor);
     bottom_wall.setOutlineColor(borderOutlineColor);
     bottom_wall.setOutlineThickness(1);
-    bottom_wall.setPosition(0, window_y);    
+    bottom_wall.setPosition(0, window_y - 20);    
     generated_walls.push_back(bottom_wall);
 
     return generated_walls;

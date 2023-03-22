@@ -1,9 +1,9 @@
 #include "projectile.h"
 
 // Config
-const float projectileRadius = 10.f;
+const float projectileRadius = 5.f;
 const sf::Color projectileColor = sf::Color::Red;
-const float projectileSpeed = 200.f;
+const float projectileSpeed = 300.f;
 
 
 Projectile::Projectile(float x, float y, float directionX, float directionY) {

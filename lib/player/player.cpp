@@ -4,7 +4,7 @@
 
 
 
-// Config
+// Movement
 float playerSpeed = 1000.f;
 float smoothingFactor = 0.2f;
 float acceleration = 10000.f;
@@ -13,6 +13,7 @@ float deceleration = 2000.f; // Lower means more slide, higher means less and qu
 // temp
 bool can_shoot = false;
 
+
 float copy_sign(float x, float y) {
     return (y < 0.f) ? -std::abs(x) : std::abs(x);
 }
@@ -20,7 +21,7 @@ float copy_sign(float x, float y) {
 Player::Player(float x, float y) {
     m_shape.setRadius(20.f);
     m_shape.setPosition(x, y);
-    m_shape.setFillColor(sf::Color::White);
+    m_shape.setFillColor(playerColor);
 }
 
 void Player::createProjectile() {
@@ -93,7 +94,9 @@ void Player::handleInput(sf::Event event) {
 
        // Space - Shoots Projectile
         if (event.key.code == sf::Keyboard::Space) {
-            createProjectile();
+            if (can_shoot){
+                createProjectile();
+            }
         }
 
         if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::W) {
