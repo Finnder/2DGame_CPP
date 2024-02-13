@@ -1,9 +1,9 @@
 #include <SFML/Graphics.hpp>
 #include "./config/config.h"
 #include "./lib/player/player.cpp"
-#include "./lib/ui/button/RoundedButton.cpp"
 #include "./lib/debug/debugMessage.cpp"
 #include "./lib/envirement/map.cpp"
+#include "./lib/ui/menu/menu.hpp"
 #include <string>
 #include <cmath>
 #include <vector>
@@ -17,10 +17,12 @@ int main()
     sf::Clock clock;
     sf::Time deltaTime; 
 
-    window.setFramerateLimit(60);
+    window.setFramerateLimit(120);
+
 
     sf::Font font;
     sf::String mainFont = "./assets/fonts/foundation.ttf";
+
 
     if (!font.loadFromFile(mainFont)){
         printf("Err: Loading Font, Loading Default");
@@ -33,13 +35,16 @@ int main()
     background.setFillColor(backgroundColor);
     background.setSize(sf::Vector2f(window_x, window_y));
     background.setOrigin(0, 0);
-    
+
     // Environment
     std::vector<sf::RectangleShape> walls = get_map();
 
+    // UI
+    Menu menu;
+    RoundedButton button(150, 50, 200, 200, "Play", font, 30);
+
     while (window.isOpen())
     {   
-
         deltaTime = clock.restart();
         float dt = deltaTime.asSeconds();
 
@@ -47,7 +52,6 @@ int main()
 
         while(window.pollEvent(event)){
             if (event.type == sf::Event::Closed) { window.close(); }
-
             player.handleInput(event);
         }
 
@@ -58,15 +62,11 @@ int main()
 
         window.draw(background);
         player.draw(window);
+        window.draw(button);
 
         // Draw Walls
-        for (const auto& wall : walls) {
+        for (const auto& wall : walls)
             window.draw(wall);
-        }
-
-        //window.draw(play_button);
-        //window.draw(options_button);
-        //window.draw(quit_button);
 
 
         // Display the window

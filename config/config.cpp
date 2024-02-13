@@ -7,9 +7,9 @@
 
 
 // WINDOW CONFIG
-const std::string windowTitle = "C++ Game";
-const int window_x = 800;
-const int window_y = 600;
+const std::string windowTitle = "C++ Shooter Game";
+const int window_x = 1000;
+const int window_y = 700;
 
 // COLOR SCHEME
 const sf::Color backgroundColor(31, 95, 131);

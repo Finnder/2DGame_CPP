@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "../../config/config.cpp"
+#include "stdlib.h"
 
 // We return all of the walls here
 std::vector<sf::RectangleShape> get_map(){
@@ -27,6 +28,14 @@ std::vector<sf::RectangleShape> get_map(){
     bottom_wall.setOutlineThickness(1);
     bottom_wall.setPosition(0, window_y - 20);    
     generated_walls.push_back(bottom_wall);
+
+    // Middle Wall Area
+    sf::RectangleShape middle_wall(sf::Vector2f(20, 100));
+    middle_wall.setFillColor(borderColor);
+    middle_wall.setOutlineColor(borderOutlineColor);
+    middle_wall.setOutlineThickness(1);
+    middle_wall.setPosition(10 + rand() % 100 + 1, 300);
+    generated_walls.push_back(middle_wall);
 
     return generated_walls;
 }

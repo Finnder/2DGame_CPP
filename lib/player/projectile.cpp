@@ -35,4 +35,3 @@ void Projectile::update(float deltaTime, const std::vector<sf::RectangleShape>& 
 void Projectile::draw(sf::RenderWindow& window) {
     window.draw(m_shape);
 }
-
